@@ -1,0 +1,5 @@
+{
+    "path": "../day-one-next-js/src/**/*.{js,ts,jsx,tsx}",
+    "schema": "schema.json",
+    "generates": "../day-one-next-js/src/sanity/types.ts"
+}
