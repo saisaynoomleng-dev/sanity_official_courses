@@ -310,6 +310,115 @@ export type Slug = {
 
 export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Album | Event | Artist | Venue | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ../day-one-next-js/src/app/(frontend)/artist/[slug]/page.tsx
+// Variable: ARTIST_DETAIL_QUERY
+// Query: *[_type == 'artist'   && slug.current == $slug][0]{    image{      asset->{        url      }    },    album[]->{      name,      releasedDate,      image{        asset->{            url        }      }    },    genre,    name,    slug,    bio   }
+export type ARTIST_DETAIL_QUERYResult = {
+  image: {
+    asset: {
+      url: string | null;
+    } | null;
+  } | null;
+  album: Array<{
+    name: string | null;
+    releasedDate: string | null;
+    image: {
+      asset: {
+        url: string | null;
+      } | null;
+    } | null;
+  }> | null;
+  genre: "country" | "edm" | "hipHop" | "metalRock" | "rock" | "techno" | null;
+  name: string | null;
+  slug: Slug | null;
+  bio: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+} | null;
+
+// Source: ../day-one-next-js/src/app/(frontend)/artist/page.tsx
+// Variable: ARTISTS_QUERY
+// Query: *[_type == 'artist'   && defined(slug.current)]{    image{      asset->{        url      }    },    genre,    name,    slug,   }
+export type ARTISTS_QUERYResult = Array<{
+  image: {
+    asset: {
+      url: string | null;
+    } | null;
+  } | null;
+  genre: "country" | "edm" | "hipHop" | "metalRock" | "rock" | "techno" | null;
+  name: string | null;
+  slug: Slug | null;
+}>;
+
+// Source: ../day-one-next-js/src/app/(frontend)/events/[slug]/page.tsx
+// Variable: EVENT_QUERY
+// Query: *[_type == 'event'   && slug.current == $slug][0]{    _id,    name,    headline->{      name,      genre    },    venue->{      name,      address    },    dateAndTime,    doorsOpen,    slug,    image{      asset->{        url      }    },    details   }
+export type EVENT_QUERYResult = {
+  _id: string;
+  name: string | null;
+  headline: {
+    name: string | null;
+    genre: "country" | "edm" | "hipHop" | "metalRock" | "rock" | "techno" | null;
+  } | null;
+  venue: {
+    name: string | null;
+    address: string | null;
+  } | null;
+  dateAndTime: string | null;
+  doorsOpen: number | null;
+  slug: Slug | null;
+  image: {
+    asset: {
+      url: string | null;
+    } | null;
+  } | null;
+  details: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+    _key: string;
+  }> | null;
+} | null;
+
 // Source: ../day-one-next-js/src/app/(frontend)/page.tsx
 // Variable: EVENTS_QUERY
 // Query: *[_type == 'event'   && defined(slug.current)]{    _id,    name,    headline->{      name,      genre    },    venue->{      name,      address    },    dateAndTime,    doorsOpen,    slug,    image{      asset->{        url      }    }   } | order(date desc)
@@ -338,6 +447,9 @@ export type EVENTS_QUERYResult = Array<{
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
+    "*[_type == 'artist'\n   && slug.current == $slug][0]{\n    image{\n      asset->{\n        url\n      }\n    },\n    album[]->{\n      name,\n      releasedDate,\n      image{\n        asset->{\n            url\n        }\n      }\n    },\n    genre,\n    name,\n    slug,\n    bio\n   }": ARTIST_DETAIL_QUERYResult;
+    "*[_type == 'artist'\n   && defined(slug.current)]{\n    image{\n      asset->{\n        url\n      }\n    },\n    genre,\n    name,\n    slug,\n   }": ARTISTS_QUERYResult;
+    "*[_type == 'event'\n   && slug.current == $slug][0]{\n    _id,\n    name,\n    headline->{\n      name,\n      genre\n    },\n    venue->{\n      name,\n      address\n    },\n    dateAndTime,\n    doorsOpen,\n    slug,\n    image{\n      asset->{\n        url\n      }\n    },\n    details\n   }": EVENT_QUERYResult;
     "*[_type == 'event'\n   && defined(slug.current)]{\n    _id,\n    name,\n    headline->{\n      name,\n      genre\n    },\n    venue->{\n      name,\n      address\n    },\n    dateAndTime,\n    doorsOpen,\n    slug,\n    image{\n      asset->{\n        url\n      }\n    }\n   } | order(date desc)": EVENTS_QUERYResult;
   }
 }
