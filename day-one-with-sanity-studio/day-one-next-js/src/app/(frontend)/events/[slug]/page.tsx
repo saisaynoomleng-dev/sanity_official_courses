@@ -69,9 +69,9 @@ const EventDetailPage = async ({
                 <p className="font-bold">Venue: <span className="font-normal">{event?.venue?.name} ({event?.venue?.address})</span></p>
             </div>
 
-            <div className="col-span-full prose lg:prose-xl min-w-full">
-                <PortableText value={event?.details} />
-            </div>
+            {event?.details && <div className="col-span-full prose lg:prose-xl min-w-full">
+                <PortableText value={event.details} />
+            </div>}
         </div >
     )
 }
