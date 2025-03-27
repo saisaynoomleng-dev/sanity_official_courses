@@ -17,7 +17,12 @@ export const eventType = defineType({
             name: 'name',
             title: 'Event Name',
             type: 'string',
-            group: 'details'
+            group: 'details',
+            readOnly: ({ currentUser }) => {
+                const isAdmin = currentUser?.roles?.some(role => role.name === 'administrator');
+
+                return !isAdmin
+            }
         }),
         defineField({
             name: 'slug',
